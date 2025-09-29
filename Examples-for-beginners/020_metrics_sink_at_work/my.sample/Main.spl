@@ -1,0 +1,35 @@
+/*
+ * This example shows how one can use the MetricsSink standard toolkit
+ * operator to create application-specific custom metrics that can be
+ * viewed in real-time when the application is running. The viewing of 
+ * the custom metrics can be performed in the Streams Console or by using
+ * the capturestate option in streamtool. 
+
+ * *Please Note:  This sample does not support Standalone mode.**
+
+ */
+namespace my.sample;
+
+// You can view the metrics values produced by the MetricsSink in
+// one of two ways.
+// 1) View in Streams Console
+// 2) streamtool capturestate -i <instance_name> -j <job_id> --select jobs=metrics
+
+composite Main
+{
+	graph
+		stream<int64 a, int64 b> A = Beacon()
+		{
+			output
+				A: a = (int64) IterationCount() - 2l, b = (int64) IterationCount() + 6l;
+		}
+
+		() as MyMetrics = MetricsSink(A)
+		{
+			param
+				metrics: a, b, a + b, a * b;
+				names: "a", "b", "sum", "product";
+				descriptions: "A", "B", "sum of A and B", "product of A and B";
+		}
+}
+

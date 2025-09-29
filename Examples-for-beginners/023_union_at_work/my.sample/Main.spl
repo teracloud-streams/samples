@@ -1,0 +1,79 @@
+/*
+ * This example demonstrates an utility operator called Union. This operator
+ * combines all the tuples from several input ports as they arrive and emits a
+ * single output stream. All the input ports must have a schema that contains
+ * attributes of the same name and type as that of the output port. The order
+ * of the attributes in the input ports need not match the order in the output port.
+ */
+namespace my.sample;
+
+composite Main
+{
+	type
+		employee = tuple<rstring name, uint32 id>;
+		department = tuple<uint32 id, rstring name>;
+		orders = tuple<uint32 id, rstring name, rstring orderDate, rstring product, uint32 quantity>;
+		inventory = tuple<uint32 id, rstring name, uint32 quantity, float32 price>;
+		// Some random combination of attributes that will form the 
+		// output tuple of the Union operator. (Just for testing.)
+		allCombined = tuple<rstring name, uint32 id>;
+
+	graph
+		stream<employee> EmployeeRecord = FileSource()
+		{
+			param
+				file: getApplicationDir() + "/data/EmployeeRecords.txt";
+				format: csv;
+				hasDelayField: true;
+				initDelay: 1.0;
+		} 
+
+		stream<department> DepartmentRecord = FileSource()
+		{
+			param
+				file: getApplicationDir() + "/data/DepartmentRecords.txt";
+				format: csv;
+				hasDelayField: true;
+				initDelay: 1.0;
+		} 
+
+		stream<orders> OrderRecord = FileSource()
+		{
+			param
+				file: getApplicationDir() + "/data/orders.txt";
+				format: csv;
+				hasDelayField: true;
+				initDelay: 1.0;
+		} 
+
+		stream<inventory> InventoryRecord = FileSource()
+		{
+			param
+				file: getApplicationDir() + "/data/inventory.txt";
+				format: csv;
+				hasDelayField: true;
+				initDelay: 1.0;
+		} 
+
+		// Some random combination of attributes that will form the 
+		// output tuple of the Union operator. (Just for testing.)
+		stream<allCombined> AllCombined = Union(EmployeeRecord; DepartmentRecord; OrderRecord; InventoryRecord) 
+		{
+
+		}	
+
+		() as ScreenWriter1 = Custom(AllCombined)
+		{
+			logic
+				state:
+					mutable int32 combinedTupleCnt = 0;
+				onTuple AllCombined:
+				{
+					if (combinedTupleCnt++ == 0)
+					{
+						printStringLn("\na)Combined tuples from the Union operator:");
+					}
+					printStringLn((rstring) combinedTupleCnt + "a)" + (rstring) AllCombined);
+				}
+		} 
+}

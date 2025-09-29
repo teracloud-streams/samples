@@ -1,0 +1,43 @@
+/* 
+ * This sample demonstrates how the PythonOp SPL operator is used to incorporate 
+ * Python-based application logic into an SPL application. PythonOp is used in 
+ * an SPL application like any other operator, but it processes each tuple using 
+ * Python code, which may range from a simple script to a full program.
+
+ * In this example, PythonOp applies a scikit-learn Linear Support Vector 
+ * Classification (LSVC) model to incoming SMS messages, classifying them as 
+ * either spam or ham (non-spam). The model was trained on the UCI SMS Spam 
+ * dataset, and some sample data from that dataset serves as the input stream 
+ * for this sample. 
+ */
+
+namespace sample;
+
+composite PythonOpScoring
+{
+    graph
+        // Read SMS message data from file
+        stream<rstring message> SampleData = FileSource()
+        {
+            param
+                file: getApplicationDir() + "/data/sms_input.dat";
+                format: line;
+                initDelay: 5.0;
+        }
+
+        // Perform the scoring on each message 
+        stream<rstring pred, rstring message_out> MessageOut as Predictor = PythonOp(SampleData)
+        {
+            param
+                module: "lsvc-scorer";
+                modelsdir: getApplicationDir() + "/models/";
+        }
+
+        // Write the results of the scoring file sink.
+        () as FileWriter = FileSink(MessageOut)
+        {
+            param
+                file: "/tmp/ScoringResults.txt";
+        }
+}
+

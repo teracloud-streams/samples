@@ -1,0 +1,112 @@
+/*
+ * This example demonstrates one of the important features desired in the
+ * real-world (mostly in the retail banking and in the telco industries).
+ * In many real-world scenarios, they still work via files that get dropped
+ * into a directory for processing. It is shown here how the DirectoryScan
+ * operator picks up a file as soon as it appears inside an input directory.
+ */
+namespace my.sample;
+
+// In order to test this application, you have to set up three directories that the  
+// application will use.  To do so, run the following commands:
+//
+// 		mkdir /tmp/018
+//		mkdir /tmp/018/test1
+//		mkdir /tmp/018/test2
+//		mkdir /tmp/018/test3
+// 
+// Then, do the following:
+// 1) Copy the data/Population.txt file to test1.
+// 2) Copy the data/EmployeeRecords.txt file to test2.
+// 3) Copy the data/DepartmentRecords.txt file to test3.
+//
+// When running the application copy those same files (with a different file name)
+// to their respective directory again and again.  Every new file you create there 
+// should be picked up by the DirectoryScan operator.
+
+composite Main
+{
+	type
+		cityData = tuple<rstring city, rstring country, uint32 population, uint32 medianAge, uint32 percentageEducated>;
+		employee = tuple<rstring name, uint32 employeeDepartment>;
+		department = tuple<uint32 departmentId, rstring departmentName>;
+
+	graph
+		// Directory scan for city data records.
+		stream<rstring cityDataFile> CityDataFile = DirectoryScan()
+		{
+			param
+				directory: "/tmp/018/test1";
+				sleepTime: 3.0;
+				pattern: ".*\\.txt";
+				initDelay: 3.0;
+		}
+
+		// Directory scan for employee data records.
+		stream<rstring employeeDataFile> EmployeeDataFile = DirectoryScan()
+		{
+			param
+				directory: "/tmp/018/test2";
+				sleepTime: 3.0;
+				pattern: ".*\\.txt";
+				initDelay: 3.0;
+		}
+
+		// Directory scan for department data records.
+		stream<rstring departmentDataFile> DepartmentDataFile = DirectoryScan()
+		{
+			param
+				directory: "/tmp/018/test3";
+				sleepTime: 3.0;
+				pattern: ".*\\.txt";
+				initDelay: 3.0;
+		}
+
+		// This FileSource will keep consuming data from any new file appearing in test1 directory.
+		stream<cityData> CityDataRecord = FileSource(CityDataFile)
+		{
+			param
+				format: csv;
+				hasDelayField: true;
+		}
+
+		// This FileSink will flush every 4 tuples.
+		() as FileSink1 = FileSink(CityDataRecord)
+		{
+			param
+				file: "/tmp/018/test1/result_population.csv";
+				flush: 4u;
+		}
+
+		// This FileSource will keep consuming data from any new file appearing in test2 directory.
+		stream<employee> EmployeeRecord = FileSource(EmployeeDataFile)
+		{
+			param
+				format: csv;
+				hasDelayField: true;
+		}
+
+		// This FileSink flush every 4 tuples.
+		() as FileSink2 = FileSink(EmployeeRecord)
+		{
+			param
+				file: "/tmp/018/test2/result_employee.csv";
+				flush: 4u;
+		}
+
+		// This FileSource will keep consuming data from any new file appearing in test3 directory.
+		stream<department> DepartmentRecord = FileSource(DepartmentDataFile)
+		{
+			param
+				format: csv;
+				hasDelayField: true;
+		}
+
+		// This FileSink will flush the file 4 new tuples.
+		() as FileSink3 = FileSink(DepartmentRecord)
+		{
+			param
+				file: "/tmp/018/test3/result_department.csv";
+				flush: 4u;
+		}
+}

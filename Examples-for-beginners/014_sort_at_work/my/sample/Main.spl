@@ -1,0 +1,178 @@
+/*
+ * This example shows the use of the Sort operator in the context of an application.
+ * The sort operator is highly configurable with all kinds of windowing support.
+ * In this example, the following window configurations are applied for sorting the
+ * incoming tuples.
+ * a) Count-based tumbling window.
+ * b) Time-based tumbling window.
+ * c) Punctuation-based tumbling window.
+ * d) Delta-based tumbling window.
+ * e) Count-based sliding window.
+ */
+namespace my.sample;
+
+composite Main
+{
+	type
+		employee = tuple<rstring name, uint32 id, rstring title, float32 salary>;
+
+	graph
+		stream<employee> EmployeeRecord = FileSource()
+		{
+			param
+				file: getApplicationDir() + "/data/EmployeeRecords.txt";
+				format: csv;
+				hasDelayField: true;
+				initDelay: 2.0;
+		}
+
+		stream<employee> SortByName = Sort(EmployeeRecord)
+		{
+			window
+				EmployeeRecord: tumbling, count(5);
+			param
+				sortBy: name;
+		}
+
+		stream<employee> SortById = Sort(EmployeeRecord)
+		{
+			window
+				EmployeeRecord: tumbling, punct();
+			param
+				sortBy: id;
+		}
+
+		stream<employee> SortByTitle = Sort(EmployeeRecord)
+		{
+			window
+				EmployeeRecord: tumbling, time(8);
+			param
+				sortBy: title;
+		}
+
+		stream<employee> SortBySalary = Sort(EmployeeRecord)
+		{
+			window
+				EmployeeRecord: tumbling, count(3), partitioned;
+			param
+				partitionBy: name;
+				sortBy: salary;
+		}
+
+		stream<employee> SortWithDeltaWindow = Sort(EmployeeRecord)
+		{
+			window
+				EmployeeRecord: tumbling, delta(id, 20u);
+			param
+				sortBy: name;
+		}
+
+		stream<employee> SortWithSlidingWindow = Sort(EmployeeRecord)
+		{
+			window
+				EmployeeRecord: sliding, count(3), count(1);
+			param
+				sortBy: name;
+		}
+
+		() as OutputWriter1 = Custom(SortByName)
+		{
+			logic
+				state:
+					mutable int32 sortedTupleCnt = 0;
+				onTuple SortByName:
+				{
+					if (sortedTupleCnt++ == 0)
+					{
+						printStringLn("\na) Tuples sorted by name with tumbling count(5)");
+					}
+
+					printStringLn((rstring) sortedTupleCnt + "a)" + (rstring) SortByName);
+				}
+		}
+
+		() as OutputWriter2 = Custom(SortById)
+		{
+			logic
+				state:
+					mutable int32 sortedTupleCnt = 0;
+				onTuple SortById:
+				{
+					if (sortedTupleCnt++ == 0)
+					{
+						printStringLn("\nb) Tuples sorted by id with tumbling punct()");
+					}
+
+					printStringLn((rstring) sortedTupleCnt + "b)" + (rstring) SortById);
+				}
+		}
+
+		() as OutputWriter3 = Custom(SortByTitle)
+		{
+			logic
+				state:
+					mutable int32 sortedTupleCnt = 0;
+				onTuple SortByTitle:
+				{
+					if (sortedTupleCnt++ == 0)
+					{
+						printStringLn("\nc) Tuples sorted by title with tumbling time(6)");
+					}
+
+					printStringLn((rstring) sortedTupleCnt + "c)" + (rstring) SortByTitle);
+				}
+		}
+
+		() as OutputWriter4 = Custom(SortBySalary)
+		{
+			logic
+				state:
+					mutable int32 sortedTupleCnt = 0;
+				onTuple SortBySalary:
+				{
+					if (sortedTupleCnt++ == 0)
+					{
+						printStringLn("\nd) Tuples sorted by salary with partitioned tumbling count(3)");
+					}
+
+					printStringLn((rstring) sortedTupleCnt + "d)" + (rstring) SortBySalary);
+				}
+		}
+
+		() as OutputWriter5 = Custom(SortWithDeltaWindow)
+		{
+			logic
+				state:
+					mutable int32 sortedTupleCnt = 0;
+				onPunct SortWithDeltaWindow:
+				{
+					printStringLn("e) Punctuation arrived from tumbling delta(id, 20u) after " + (rstring) sortedTupleCnt + "e");
+				}
+				onTuple SortWithDeltaWindow:
+				{
+					if (sortedTupleCnt++ == 0)
+					{
+						printStringLn("\ne) Tuples sorted by name with tumbling delta(id, 20u)");
+					}
+
+					printStringLn((rstring) sortedTupleCnt + "e)" + (rstring) SortWithDeltaWindow);
+				}
+		}
+
+		() as OutputWriter6 = Custom(SortWithSlidingWindow)
+		{
+			logic
+				state:
+					mutable int32 sortedTupleCnt = 0;
+				onTuple SortWithSlidingWindow:
+				{
+					if (sortedTupleCnt++ == 0)
+					{
+						printStringLn("\nf) Tuples sorted by name with sliding, count(3)");
+					}
+
+					printStringLn((rstring) sortedTupleCnt + "f)" + (rstring) SortWithSlidingWindow);
+				}
+		}
+
+}

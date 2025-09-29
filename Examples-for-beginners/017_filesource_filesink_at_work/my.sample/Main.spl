@@ -1,0 +1,93 @@
+/*
+ * We have used the FileSource and the FileSink operators in other examples
+ * before. However, this example shows off the following intriguing
+ * features that will become handy. 
+
+ * a) Automatic deletion of a file after the FileSource reads all the records.
+ * b) Flushing the sink file on demand after writing a certain number of tuples.
+ * c) Ability of the FileSource to move the file once it is done with it.
+ * d) Creating a fresh and new output sink file after writing certain number of tuples.
+ * e) Ability of the FileSource to keep reading from a hot file as new CSV records get written.
+ */
+
+// In order to test this application, you have to set up two directories that the  
+// application will use.  To do so, run the following commands:
+//
+// 		mkdir /tmp/017
+//		mkdir /tmp/017/test1
+//		mkdir /tmp/017/test2
+//		cp data/* /tmp/017/test1
+// 
+// When correctly set up:
+//		/tmp/017/test1 will contain 3 files
+//		/tmp/017/test2 will contain 0 files
+//
+//
+// While running the application , in order to test the hotFile function, you have to 
+// keep appending new records // to the test1/DepartmentRecordsFile using a text editor.
+namespace my.sample;
+
+composite Main
+{
+	type
+		cityData = tuple<rstring city, rstring country, uint32 population, uint32 medianAge, uint32 percentageEducated>;
+		employee = tuple<rstring name, uint32 employeeDepartment>;
+		department = tuple<uint32 departmentId, rstring departmentName>;
+		
+	graph
+		// This FileSource will delete the file after it is fully read.
+		stream<cityData> CityDataRecord = FileSource()
+		{
+			param
+				file: "/tmp/017/test1/Population.txt";
+				format: csv;
+				deleteFile: true;
+				hasDelayField: true;
+		}
+
+		// This FileSink will flush every 4 tuples.
+		() as FileSink1 = FileSink(CityDataRecord)
+		{
+			param
+				file: "/tmp/017/test1/result_population.txt";
+				flush: 4u;
+		}
+
+		// This FileSource will move the file after it is fully read..
+		stream<employee> EmployeeRecord = FileSource()
+		{
+			param
+				file: "/tmp/017/test1/EmployeeRecords.txt";
+				format: csv;
+				moveFileToDirectory: "/tmp/017/test2";
+				hasDelayField: true;
+		}
+
+		// This FileSink will create a new output file for every 2 tuples.
+		() as FileSink2 = FileSink(EmployeeRecord)
+		{
+			param
+				file: "/tmp/017/test2/result_employee{id}.txt";
+				closeMode: count;
+				tuplesPerFile: 2u;
+		}
+
+		// This FileSource will keep reading tuples from a hot file
+		stream<department> DepartmentRecord = FileSource()
+		{
+			param
+				file: "/tmp/017/test1/DepartmentRecords.txt";
+				format: csv;
+				hotFile: true;
+				hasDelayField: true;
+		}
+
+		// This FileSink will flush the file for every 2 new tuples.
+		() as FileSink3 = FileSink(DepartmentRecord)
+		{
+			param
+				file: "/tmp/017/test1/result_department.txt";
+				flush: 2u;
+		}
+
+}
