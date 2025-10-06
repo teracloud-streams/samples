@@ -1,0 +1,3 @@
+	@$(CXX_LN) $(SPL_CXXFLAGS) -o bin/ScreenWriter1.so -fPIC -shared $(SOScreenWriter1) $(SPL_LDFLAGS)\
+	    build/operator/ScreenWriter1.o \
+	    build/type/BEqO_0Ev7XRaaviprs3CdvGHRyS2gp2Rfs49NHKVkxja62OEoFdALjnIL3lURN5ANhPLcnPV34ITuVxzg_1TSldCE.o 

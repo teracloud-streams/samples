@@ -1,0 +1,3 @@
+	@$(CXX_LN) $(SPL_CXXFLAGS) -o bin/MatchedStockOrder.Output.so -fPIC -shared $(SOMatchedStockOrder.Output) $(SPL_LDFLAGS)\
+	    build/operator/MatchedStockOrder/Output.o \
+	    build/type/BEqO_0Ev7XRaaviprs3CdvGHRyS2gp2Rfs49NHKVkxja62OEoFdALjnIL3lURN5ANhPLcnPV34ITuVxzg_1TSldCE.o 
