@@ -1,0 +1,77 @@
+/*
+ * ==================================================================
+ * This application shows how native functions written in C++ can be
+ * called within an SPL application. 
+
+ * Refer to the README.md file for this sample for a detailed explanation and instructions.
+ * ================================================================== 
+ */
+
+namespace my.sample;
+
+use functions.inside.header_file::*;
+use functions.inside.shared_lib::*;
+
+composite Main
+{
+	type
+		product = tuple<float32 price, rstring state1, float32 tax, float32 totalPrice>;
+
+	graph
+		stream<product> ProductRecord = FileSource()
+		{
+			param
+				file: getApplicationDir() + "/data/product_details.txt";
+				format: csv;
+				hasDelayField: false;
+				initDelay: 4.0;
+		}
+
+		// Let us compute tax using a native function defined inside a header file.
+		stream<product> TotalPriceRecord1 = Functor(ProductRecord)
+		{
+			logic
+				state:
+					mutable float32 myTax = 0.0;
+				onTuple ProductRecord:
+					myTax = taxCalculation1(price, state1);
+			param
+				filter: true;
+			output
+				TotalPriceRecord1: tax = myTax, totalPrice = price + myTax;
+		}
+
+		// Display and log the results.
+		() as Writer1 = Custom(TotalPriceRecord1)
+		{
+			logic
+				onTuple TotalPriceRecord1:
+				{
+					printStringLn("a) " + (rstring) TotalPriceRecord1);
+				}
+		}
+
+		// Let us compute tax using a native function defined inside a shared library.
+		stream<product> TotalPriceRecord2 = Functor(ProductRecord)
+		{
+			logic
+				state:
+					mutable float32 myTax = 0.0;
+				onTuple ProductRecord:
+					myTax = taxCalculation2(price, state1);
+			param
+				filter: true;
+			output
+				TotalPriceRecord2: tax = myTax, totalPrice = price + myTax;
+		}
+
+		// Display and log the results.
+		() as Writer2 = Custom(TotalPriceRecord2)
+		{
+			logic
+				onTuple TotalPriceRecord2:
+				{
+					printStringLn("b) " + (rstring) TotalPriceRecord2);
+				}
+		}
+} 
