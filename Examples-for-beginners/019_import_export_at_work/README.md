@@ -6,7 +6,7 @@ This example demonstrates how two different SPL applications can share streams b
   * If you use the Makefile, it will build both of the applications for you.
   * If you use VS Code, you will need to build each application individually.
   * Regardless of the build approach, the two applications need to be submitted separately.
-* This sample cannot work in the Standalone mode. Import and Export requireapplications running in distributed mode in the same Streams instance.
+* This sample cannot work in the Standalone mode. Import and Export require applications running in distributed mode in the same Streams instance.
 
 For more information about how to compile, execute and view the output of a sample application, see the [Build, Run, View Guide](../../BuildRunView.md)
 

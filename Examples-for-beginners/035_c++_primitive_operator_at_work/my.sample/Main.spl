@@ -1,0 +1,54 @@
+/*
+ * This sample shows how to create a C++ primitive operator from scratch.  It also demonstrates that both a Java operator and a C++ primitive operator can be part of a single application.
+
+ * The application:
+
+ * 1) Invokes an existing Java primitive operator used as the data source of the application.
+ * 2) Invokes a new C++ primitive operator located inside this application's toolkit directory.
+ * 3) Writes output using the SPL FileSink operator
+
+ * The new C++ primitive operator included in this sample defines a C++ primitive operator model file that you can explore to learn how the different fields in that file are configured. Then, the code generation template header and implementation files (*_h.cgt and *_cpp.cgt) can be browsed to learn about the primitive operator logic.
+ */
+
+namespace my.sample;
+
+// Our C++ primitive operator is in this namespace. 
+// Hence, we have to declare a use directive to access the primitive operator.
+use directory.lister::*;
+
+composite Main
+{
+	// Define the tuple types that we will use.
+	type
+		systemProperties = tuple<ustring name, ustring value, set<ustring> tags>;
+		dirListing = tuple<systemProperties, tuple<list<ustring> files>>;
+
+	graph
+		// Use the standard toolkit operator JavaOp() to invoke an existing
+		// Java "SystemPropertySource" operator that is shipped as part of the
+		// Streams product.
+		stream<systemProperties> SystemPropertyTuple = JavaOp()
+		{
+			param
+				className: "com.ibm.streams.operator.samples.sources.SystemPropertySource";
+				classLibrary: "";
+		}
+
+		// Invoke the C++ operator that will return the enriched tuples 
+		// by listing the directory contents for those directories opted 
+		// below via the listDirectory parameter.
+		stream<dirListing> DirectoryListerTuple = DirectoryLister(SystemPropertyTuple)
+		{
+			// This primitive operator accepts a single expression type parameter
+			// that will take unbounded number of values.
+			param
+				listDirectory: "java.home", "user.dir", "java.io.tmpdir";
+		}
+
+		// Write the tuples coming out of the C++ primitive operators to a file
+		() as ResultsSink = FileSink(DirectoryListerTuple)
+		{
+			param
+				file: "/tmp/results_035";
+		}
+} // End of composite Main
