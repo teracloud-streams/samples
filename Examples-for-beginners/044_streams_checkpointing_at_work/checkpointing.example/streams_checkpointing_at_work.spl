@@ -42,7 +42,9 @@ composite streams_checkpointing_at_work
 					mutable CheckpointedStream _oTuple = {};
 					assignFrom(_oTuple, Test1);
 					_oTuple.j = _cnt;
-					// You can check this output from the PE console log as shown below.
+					// You can check this output from the PE console log via the Streams
+					// Log Watcher in VSCode, the log viewer in the Streams Console, or from
+					// the command line as shown below.
 					// After you kill the PE, it will automatically get restarted by the
 					// Streams runtime. Its internal state also will get restored from the
 					// latest checkpoint that was taken just before the crash. You should see
@@ -54,8 +56,16 @@ composite streams_checkpointing_at_work
 			config
 				// We will do a periodic checkpoint of this operator every two seconds.
 				checkpoint: periodic(2.0);
-				restartable: true; // Since Streams 4.0, the restartable config defaults to true, but we set it here anyway to show the context of the config.
-				relocatable: true; // The default for relocatable is also true.
+				// Since Streams 4.0, the restartable config defaults to true, but we set it 
+				// here anyway to show the context of the config.
+				restartable: true;
+				// The default for relocatable is also true.
+				relocatable: true;
+				// In the past, Streams would put every operator in its own PE by default.
+				// But now, the default fusion policy would fuse an application like this 
+				// into a single PE.  So we use the following statement to put this operator 
+				// in a PE by itself to demonstrate the checkpointing and recovery more effectively.
+				placement: partitionIsolation;
 		}
 
 		stream<int64 minValue, int64 maxValue, int64 avgValue> AggregatedStream = Aggregate(CheckpointedStream)

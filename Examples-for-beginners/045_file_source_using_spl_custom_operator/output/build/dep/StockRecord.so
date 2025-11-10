@@ -1,5 +1,0 @@
-	@$(CXX_LN) $(SPL_CXXFLAGS) -o bin/StockRecord.so -fPIC -shared $(SOStockRecord) $(SPL_LDFLAGS)\
-	    build/operator/StockRecord.o \
-	    build/type/BcyIw_123yuxalGHt_0UPzvHr6jutVOfqYy4EjyWMc7ELFtCMYkxYjxKoc_1GyrP3_0eilO0roi7TbPc_14tWTm1iZBT.o \
-	    build/type/BIRcdMK4d_0i6vUpi35EvfuXSH4RefdmmGwtUQ_0UWZGo6_09lXFSXFfk7e03riz1c5HSVI91Qimv_0ZzKDRwCB6XDd.o \
-	    build/type/B33ET1MOyZwcEWURZeRItrPY5cu_1oM1W9_0NU7Lkb3pnWlsBXpTeskthB4K1SWEu5pogyU9dlmWAt7VfISZoN_0Cz.o 
