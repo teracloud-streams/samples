@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<operatorInstanceModel xmlns="http://www.ibm.com/xmlns/prod/streams/spl/operator/instance" xmlns:an="http://www.ibm.com/xmlns/prod/streams/spl/annotation" xmlns:tt="http://www.ibm.com/xmlns/prod/streams/spl/tupleType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <context>
+    <kind>spl.adapter::FileSink</kind>
+    <class>FileSink1</class>
+    <operatorModelDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/spl/spl/adapter/FileSink</operatorModelDirectory>
+    <applicationDirectory>/homes/mbranson/samples-git-space/samples/Examples-for-beginners/045_file_source_using_spl_custom_operator</applicationDirectory>
+    <dataDirectory/>
+    <outputDirectory>/homes/mbranson/samples-git-space/samples/Examples-for-beginners/045_file_source_using_spl_custom_operator/output</outputDirectory>
+    <toolkits>
+      <toolkit isCurrentToolkit="false">
+        <name>045_file_source_using_spl_custom_operator</name>
+        <rootDirectory>/homes/mbranson/samples-git-space/samples/Examples-for-beginners/045_file_source_using_spl_custom_operator</rootDirectory>
+        <index>0</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="true">
+        <name>spl</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/spl</rootDirectory>
+        <index>1</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.avro</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.avro</rootDirectory>
+        <index>2</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.cep</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.cep</rootDirectory>
+        <index>3</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.crossdcfailover</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.crossdcfailover</rootDirectory>
+        <index>4</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.cybersecurity</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.cybersecurity</rootDirectory>
+        <index>5</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.datetime</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.datetime</rootDirectory>
+        <index>6</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.dps</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.dps</rootDirectory>
+        <index>7</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.elasticsearch</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.elasticsearch</rootDirectory>
+        <index>8</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.evalpredicate</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.evalpredicate</rootDirectory>
+        <index>9</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.geospatial</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.geospatial</rootDirectory>
+        <index>10</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.hbase</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.hbase</rootDirectory>
+        <index>11</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.hdfs</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.hdfs</rootDirectory>
+        <index>12</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.inet</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.inet</rootDirectory>
+        <index>13</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.inetserver</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.inetserver</rootDirectory>
+        <index>14</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.jdbc</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.jdbc</rootDirectory>
+        <index>15</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.jms</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.jms</rootDirectory>
+        <index>16</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.json</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.json</rootDirectory>
+        <index>17</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.kafka</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.kafka</rootDirectory>
+        <index>18</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.mail</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.mail</rootDirectory>
+        <index>19</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.messagehub</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.messagehub</rootDirectory>
+        <index>20</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.mqtt</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.mqtt</rootDirectory>
+        <index>21</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.network</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.network</rootDirectory>
+        <index>22</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.objectstorage</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.objectstorage</rootDirectory>
+        <index>23</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.pmml</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.pmml</rootDirectory>
+        <index>24</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.rabbitmq</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.rabbitmq</rootDirectory>
+        <index>25</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.rproject</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.rproject</rootDirectory>
+        <index>26</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.teda</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.teda</rootDirectory>
+        <index>27</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.timeseries</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.timeseries</rootDirectory>
+        <index>28</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.topology</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.topology</rootDirectory>
+        <index>29</index>
+      </toolkit>
+      <toolkit isCurrentToolkit="false">
+        <name>com.teracloud.streams.websocket</name>
+        <rootDirectory>/homes/mbranson/streams/7.2.0.1/toolkits/com.teracloud.streams.websocket</rootDirectory>
+        <index>30</index>
+      </toolkit>
+    </toolkits>
+    <optimized>true</optimized>
+    <verbose>false</verbose>
+    <networkByteOrdering>false</networkByteOrdering>
+    <codeBeautification>false</codeBeautification>
+    <includes>
+      <include>"../type/B33ET1MOyZwcEWURZeRItrPY5cu_1oM1W9_0NU7Lkb3pnWlsBXpTeskthB4K1SWEu5pogyU9dlmWAt7VfISZoN_0Cz.h"</include>
+      <include>"../type/BuoCzre0fg5iJdQnrwapkCyjYEMMfTagKrJ53r_0jmfdVfmhf4hwant6OIuyi_14dk4y_0FAB2rdBfcbFQiN6Jd_0An.h"</include>
+    </includes>
+    <stateVariables/>
+    <runtimeConstants>
+      <runtimeConstant>
+        <name>lit$0</name>
+        <cppType>SPL::rstring</cppType>
+        <splType>rstring</splType>
+        <value>"/tmp/stock_report_output.txt"</value>
+      </runtimeConstant>
+      <runtimeConstant>
+        <name>lit$1</name>
+        <cppType>SPL::uint32</cppType>
+        <splType>uint32</splType>
+        <value>2</value>
+      </runtimeConstant>
+    </runtimeConstants>
+    <sourceLocation>
+      <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+      <line>105</line>
+      <column>3</column>
+    </sourceLocation>
+    <productVersion>7.2.0.1</productVersion>
+    <checkpointKind>none</checkpointKind>
+  </context>
+  <parameters>
+    <parameter>
+      <name>file</name>
+      <values>
+        <value>
+          <cppType>SPL::rstring</cppType>
+          <splType>rstring</splType>
+          <hasRuntimeConstant>true</hasRuntimeConstant>
+          <cppExpression>lit$0</cppExpression>
+          <splExpression>"/tmp/stock_report_output.txt"</splExpression>
+          <hasFunctions>false</hasFunctions>
+          <hasSideEffects>false</hasSideEffects>
+          <readsState>false</readsState>
+          <hasStreamAttributes>false</hasStreamAttributes>
+          <parameterExpressionMode>Expression</parameterExpressionMode>
+          <sourceLocation>
+            <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+            <line>108</line>
+            <column>11</column>
+          </sourceLocation>
+        </value>
+      </values>
+      <sourceLocation>
+        <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+        <line>108</line>
+        <column>5</column>
+      </sourceLocation>
+    </parameter>
+    <parameter>
+      <name>format</name>
+      <values>
+        <value>
+          <cppType>DataFormat</cppType>
+          <splType>DataFormat</splType>
+          <hasRuntimeConstant>false</hasRuntimeConstant>
+          <cppExpression>csv</cppExpression>
+          <splExpression>csv</splExpression>
+          <hasFunctions>false</hasFunctions>
+          <hasSideEffects>false</hasSideEffects>
+          <readsState>false</readsState>
+          <hasStreamAttributes>false</hasStreamAttributes>
+          <parameterExpressionMode>CustomLiteral</parameterExpressionMode>
+          <sourceLocation>
+            <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+            <line>109</line>
+            <column>13</column>
+          </sourceLocation>
+        </value>
+      </values>
+      <sourceLocation>
+        <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+        <line>109</line>
+        <column>5</column>
+      </sourceLocation>
+    </parameter>
+    <parameter>
+      <name>flush</name>
+      <values>
+        <value>
+          <cppType>SPL::uint32</cppType>
+          <splType>uint32</splType>
+          <hasRuntimeConstant>true</hasRuntimeConstant>
+          <cppExpression>lit$1</cppExpression>
+          <splExpression>2</splExpression>
+          <hasFunctions>false</hasFunctions>
+          <hasSideEffects>false</hasSideEffects>
+          <readsState>false</readsState>
+          <hasStreamAttributes>false</hasStreamAttributes>
+          <parameterExpressionMode>AttributeFree</parameterExpressionMode>
+          <sourceLocation>
+            <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+            <line>110</line>
+            <column>12</column>
+          </sourceLocation>
+        </value>
+      </values>
+      <sourceLocation>
+        <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+        <line>110</line>
+        <column>5</column>
+      </sourceLocation>
+    </parameter>
+    <parameter>
+      <name>quoteStrings</name>
+      <values>
+        <value>
+          <cppType>SPL::boolean</cppType>
+          <splType>boolean</splType>
+          <hasRuntimeConstant>false</hasRuntimeConstant>
+          <cppExpression>false</cppExpression>
+          <splExpression>false</splExpression>
+          <hasFunctions>false</hasFunctions>
+          <hasSideEffects>false</hasSideEffects>
+          <readsState>false</readsState>
+          <hasStreamAttributes>false</hasStreamAttributes>
+          <parameterExpressionMode>Constant</parameterExpressionMode>
+          <sourceLocation>
+            <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+            <line>112</line>
+            <column>19</column>
+          </sourceLocation>
+        </value>
+      </values>
+      <sourceLocation>
+        <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+        <line>112</line>
+        <column>5</column>
+      </sourceLocation>
+    </parameter>
+  </parameters>
+  <inputPorts>
+    <inputPort>
+      <index>0</index>
+      <tupleCppName>iport$0</tupleCppName>
+      <tupleCppType>SPL::B33ET1MOyZwcEWURZeRItrPY5cu_1oM1W9_0NU7Lkb3pnWlsBXpTeskthB4K1SWEu5pogyU9dlmWAt7VfISZoN_0Cz</tupleCppType>
+      <tupleSPLType>tuple&lt;rstring symbol,rstring dateTime,float64 closingPrice,uint32 volume&gt;</tupleSPLType>
+      <facade>false</facade>
+      <mutationAllowed>false</mutationAllowed>
+      <sourceLocation>
+        <file>my.file.source/file_source_using_spl_custom_operator.spl</file>
+        <line>105</line>
+        <column>30</column>
+      </sourceLocation>
+      <attributes>
+        <attribute>
+          <name>symbol</name>
+          <cppType>SPL::rstring</cppType>
+          <splType>rstring</splType>
+        </attribute>
+        <attribute>
+          <name>dateTime</name>
+          <cppType>SPL::rstring</cppType>
+          <splType>rstring</splType>
+        </attribute>
+        <attribute>
+          <name>closingPrice</name>
+          <cppType>SPL::float64</cppType>
+          <splType>float64</splType>
+        </attribute>
+        <attribute>
+          <name>volume</name>
+          <cppType>SPL::uint32</cppType>
+          <splType>uint32</splType>
+        </attribute>
+      </attributes>
+      <tuple>
+        <tt:attr name="symbol" type="rstring"/>
+        <tt:attr name="dateTime" type="rstring"/>
+        <tt:attr name="closingPrice" type="float64"/>
+        <tt:attr name="volume" type="uint32"/>
+      </tuple>
+    </inputPort>
+  </inputPorts>
+  <outputPorts/>
+  <exceptionPorts/>
+</operatorInstanceModel>
