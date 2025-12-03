@@ -9,8 +9,6 @@ The application:
 
 The new C++ primitive operator included in this sample defines a C++ primitive operator model file that you can explore to learn how the different fields in that file are configured. Then, the code generation template header and implementation files (*_h.cgt and *_cpp.cgt) can be browsed to learn about the primitive operator logic. 
 
-**The easiest way to build this sample is execute a `make` in the top-level sample directory.  It will build both the C++ code and the SPL code.**
-
 For more information about how to compile, execute and view the output of a sample application, see the [Build, Run, View Guide](../../BuildRunView.md)
 
 ## Code
