@@ -6,6 +6,9 @@ if [ "$1" == "libPath" ]; then
 
   OS=`uname -s`
   MACH=`uname -i`
+  if [ "${MACH}" = "i386" ] ; then
+    MACH=x86
+  fi
 
   if [ "${OS}" = "Linux" ] ; then
     if [ -f /etc/redhat-release ] ; then
@@ -16,8 +19,11 @@ if [ "$1" == "libPath" ]; then
 
      OSVER=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
      OSLVL=$OSDIST${OSVER}
+    elif [ -f /etc/SuSE-release ] ; then
+     OSVER=`awk 'FNR == 2 {print $3}' /etc/SuSE-release`
+     OSLVL=SLES${OSVER}
     else
-      OSSTR="${MACH}.unsupported Linux ditribution"
+      OSLVL="unsupported Linux distribution"
     fi
 
     OSSTR="../../impl/lib/${MACH}.${OSLVL%%.*}"

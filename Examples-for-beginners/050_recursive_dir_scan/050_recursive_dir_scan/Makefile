@@ -1,11 +1,11 @@
 .PHONY: build all clean distributed
 
-SPL_MAIN_COMPOSITE = my.sample::Main
+SPL_MAIN_COMPOSITE = recursive.dir.scan::recursive_dir_scan
 SPL_CMD_ARGS ?=
 SPLC_FLAGS = -a
 OUTPUT_DIR = output
 TO_BE_DELETED = 
-
+  
 ifeq ($(STREAMS_INSTALL),)
   $(error error: environment variable STREAMS_INSTALL has to be set.)
 else

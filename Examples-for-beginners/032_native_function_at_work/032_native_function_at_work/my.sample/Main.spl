@@ -3,7 +3,8 @@
  * This application shows how native functions written in C++ can be
  * called within an SPL application. 
 
- * Refer to the README.md file for this sample for a detailed explanation and instructions.
+ * Refer to the README.md file for this sample for a detailed explanation 
+ * and instructions.
  * ================================================================== 
  */
 
