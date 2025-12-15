@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # Add -x to the line above to display the status of the statements below as they get executed.
 #
 # This script compiles the C++ class containing the native functions.
@@ -9,10 +9,9 @@
 # can be copied to the SPL project's impl directory corresponding to the given RHEL version
 # and CPU type.
 
-
-CPP_BUILD_TARGET="RecursiveDirScan"
-FINAL_LIB_NAME="RecursiveDirScanLib"
-SPL_PROJECT_DIR="050_recursive_dir_scan"
+CPP_BUILD_TARGET="NativeFunctionsWithCollectionTypes"
+FINAL_LIB_NAME="NativeFunctionsWithCollectionTypesLib"
+SPL_PROJECT_DIR="051_native_functions_with_collection_types"
 
 CXX=g++
 PLATFORM=`uname -i`
@@ -22,7 +21,7 @@ SPL_PKG=dst-spl-pe-install
 SPL_COMPILE_OPTIONS=`$SPL_PKGCFG --cflags $SPL_PKG`
 SPL_LINK_OPTIONS=`$SPL_PKGCFG --libs $SPL_PKG`
 
-$CXX -O3 -Wall -c -fmessage-length=0 -fPIC -D_REENTRANT -I include $SPL_COMPILE_OPTIONS $CPP_BUILD_TARGET.cpp
+$CXX -O3 -Wall -fPIC -D_REENTRANT -I include $SPL_COMPILE_OPTIONS -c $CPP_BUILD_TARGET.cpp
 $CXX -shared -o lib$FINAL_LIB_NAME.so $SPL_LINK_OPTIONS $CPP_BUILD_TARGET.o
 
 rm -f $CPP_BUILD_TARGET.o
@@ -36,7 +35,7 @@ if [ -f /etc/redhat-release ] ; then
  OSVER=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
  OSLVL="$OSDIST${OSVER%%.*}"
 else
-  OSLVL="unsupported Linux distribution"
+ OSLVL="unsupported Linux distribution"
 fi
 
 if [ ! -d "../$SPL_PROJECT_DIR/impl/lib/$PLATFORM.$OSLVL" ]; then
