@@ -26,7 +26,7 @@ composite PythonOpScoring
         }
 
         // Perform the scoring on each message 
-        stream<rstring pred, rstring message_out> MessageOut as Predictor = PythonOp(SampleData)
+        stream<rstring pred, rstring message_out> Scoring as Predictor = PythonOp(SampleData)
         {
             param
                 module: "lsvc-scorer";
@@ -34,7 +34,7 @@ composite PythonOpScoring
         }
 
         // Write the results of the scoring file sink.
-        () as FileWriter = FileSink(MessageOut)
+        () as FileWriter = FileSink(Scoring)
         {
             param
                 file: "/tmp/ScoringResults.txt";
