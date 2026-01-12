@@ -7,7 +7,7 @@ class Operator(streams.Operator):
     def __init__(self, ctx, params):
         super().__init__(ctx)
 
-        # Buid the path to the model
+        # Build the path to the model
         self.modelsdir = params.get("modelsdir")
         if self.modelsdir is None:
             raise ValueError("modelsdir parameter is required")
